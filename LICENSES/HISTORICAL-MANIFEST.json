@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "status": "historical-only",
+  "notice": "These byte-preserved artifacts document the historical vendor tree. The current standard-library-only implementation, including its runtime and audit planner, does not import or use these packages.",
+  "currentImplementation": {
+    "module": "github.com/PastureStack/vault-secrets-bridge",
+    "dependencyModel": "Go standard library only",
+    "historicalArtifactsUsedAtRuntime": false
+  },
+  "rootLicense": {
+    "id": "root-license",
+    "file": "LICENSE",
+    "classification": "Apache-2.0",
+    "bytes": 10174,
+    "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+  },
+  "artifacts": [
+    {
+      "id": "dependency-01",
+      "file": "LICENSES/historical/dependency-01.txt",
+      "package": "github.com/fatih/structs",
+      "originalPath": "vendor/github.com/fatih/structs/LICENSE",
+      "classification": "MIT",
+      "bytes": 1078,
+      "sha256": "8f09e42906e1a3c7bd39629a17225b3b62f25783444d8d75ad5d6657916915df"
+    },
+    {
+      "id": "dependency-02",
+      "file": "LICENSES/historical/dependency-02.txt",
+      "package": "github.com/golang/snappy",
+      "originalPath": "vendor/github.com/golang/snappy/LICENSE",
+      "classification": "BSD-3-Clause",
+      "bytes": 1486,
+      "sha256": "f69f157b0be75da373605dbc8bbf142e8924ee82d8f44f11bcaf351335bf98cf"
+    },
+    {
+      "id": "dependency-03",
+      "file": "LICENSES/historical/dependency-03.txt",
+      "package": "github.com/gorilla/context",
+      "originalPath": "vendor/github.com/gorilla/context/LICENSE",
+      "classification": "BSD-3-Clause",
+      "bytes": 1476,
+      "sha256": "e2b2df1c58a081f27c3b9fa9feec759f2bf2ce430ae02a4f274b2d9ac7e87abd"
+    },
+    {
+      "id": "dependency-04",
+      "file": "LICENSES/historical/dependency-04.txt",
+      "package": "github.com/gorilla/mux",
+      "originalPath": "vendor/github.com/gorilla/mux/LICENSE",
+      "classification": "BSD-3-Clause",
+      "bytes": 1476,
+      "sha256": "e2b2df1c58a081f27c3b9fa9feec759f2bf2ce430ae02a4f274b2d9ac7e87abd"
+    },
+    {
+      "id": "dependency-05",
+      "file": "LICENSES/historical/dependency-05.txt",
+      "package": "github.com/gorilla/websocket",
+      "originalPath": "vendor/github.com/gorilla/websocket/LICENSE",
+      "classification": "BSD-2-Clause",
+      "bytes": 1312,
+      "sha256": "2be1b548b0387ca8948e1bb9434e709126904d15f622cc2d0d8e7f186e4d122d"
+    },
+    {
+      "id": "dependency-06",
+      "file": "LICENSES/historical/dependency-06.txt",
+      "package": "github.com/hashicorp/errwrap",
+      "originalPath": "vendor/github.com/hashicorp/errwrap/LICENSE",
+      "classification": "MPL-2.0",
+      "bytes": 15977,
+      "sha256": "bef1747eda88b9ed46e94830b0d978c3499dad5dfe38d364971760881901dadd"
+    },
+    {
+      "id": "dependency-07",
+      "file": "LICENSES/historical/dependency-07.txt",
+      "package": "github.com/hashicorp/go-cleanhttp",
+      "originalPath": "vendor/github.com/hashicorp/go-cleanhttp/LICENSE",
+      "classification": "MPL-2.0",
+      "bytes": 15922,
+      "sha256": "60222c28c1a7f6a92c7df98e5c5f4459e624e6e285e0b9b94467af5f6ab3343d"
+    },
+    {
+      "id": "dependency-08",
+      "file": "LICENSES/historical/dependency-08.txt",
+      "package": "github.com/hashicorp/go-multierror",
+      "originalPath": "vendor/github.com/hashicorp/go-multierror/LICENSE",
+      "classification": "MPL-2.0",
+      "bytes": 15976,
+      "sha256": "a830016911a348a54e89bd54f2f8b0d8fffdeac20aecfba8e36ebbf38a03f5ff"
+    },
+    {
+      "id": "dependency-09",
+      "file": "LICENSES/historical/dependency-09.txt",
+      "package": "github.com/hashicorp/go-rootcerts",
+      "originalPath": "vendor/github.com/hashicorp/go-rootcerts/LICENSE",
+      "classification": "MPL-2.0",
+      "bytes": 15922,
+      "sha256": "60222c28c1a7f6a92c7df98e5c5f4459e624e6e285e0b9b94467af5f6ab3343d"
+    },
+    {
+      "id": "dependency-10",
+      "file": "LICENSES/historical/dependency-10.txt",
+      "package": "github.com/hashicorp/hcl",
+      "originalPath": "vendor/github.com/hashicorp/hcl/LICENSE",
+      "classification": "MPL-2.0",
+      "bytes": 15977,
+      "sha256": "bef1747eda88b9ed46e94830b0d978c3499dad5dfe38d364971760881901dadd"
+    },
+    {
+      "id": "dependency-11",
+      "file": "LICENSES/historical/dependency-11.txt",
+      "package": "github.com/hashicorp/vault",
+      "originalPath": "vendor/github.com/hashicorp/vault/LICENSE",
+      "classification": "MPL-2.0",
+      "bytes": 15922,
+      "sha256": "60222c28c1a7f6a92c7df98e5c5f4459e624e6e285e0b9b94467af5f6ab3343d"
+    },
+    {
+      "id": "dependency-12",
+      "file": "LICENSES/historical/dependency-12.txt",
+      "package": "github.com/mitchellh/mapstructure",
+      "originalPath": "vendor/github.com/mitchellh/mapstructure/LICENSE",
+      "classification": "MIT",
+      "bytes": 1085,
+      "sha256": "22adc4abdece712a737573672f082fd61ac2b21df878efb87ffcff4354a07f26"
+    },
+    {
+      "id": "dependency-13",
+      "file": "LICENSES/historical/dependency-13.txt",
+      "package": "github.com/pkg/errors",
+      "originalPath": "vendor/github.com/pkg/errors/LICENSE",
+      "classification": "BSD-2-Clause",
+      "bytes": 1312,
+      "sha256": "8d427fd87bc9579ea368fde3d49f9ca22eac857f91a9dec7e3004bdfab7dee86"
+    },
+    {
+      "id": "dependency-14",
+      "file": "LICENSES/historical/dependency-14.txt",
+      "package": "github.com/rancher/go-rancher",
+      "originalPath": "vendor/github.com/rancher/go-rancher/LICENSE",
+      "classification": "Apache-2.0",
+      "bytes": 10174,
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    },
+    {
+      "id": "dependency-15",
+      "file": "LICENSES/historical/dependency-15.txt",
+      "package": "github.com/rancher/rancher-flexvol",
+      "originalPath": "vendor/github.com/rancher/rancher-flexvol/LICENSE",
+      "classification": "Apache-2.0",
+      "bytes": 10174,
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    },
+    {
+      "id": "dependency-16",
+      "file": "LICENSES/historical/dependency-16.txt",
+      "package": "github.com/sethgrid/pester",
+      "originalPath": "vendor/github.com/sethgrid/pester/LICENSE.md",
+      "classification": "MIT",
+      "bytes": 1066,
+      "sha256": "e3822d9ca72d01efc43b1ed503a01ae64267fd893f60f9008e9d1fe5e11adde7"
+    },
+    {
+      "id": "dependency-17",
+      "file": "LICENSES/historical/dependency-17.txt",
+      "package": "github.com/sirupsen/logrus",
+      "originalPath": "vendor/github.com/sirupsen/logrus/LICENSE",
+      "classification": "MIT",
+      "bytes": 1082,
+      "sha256": "51a0c9ec7f8b7634181b8d4c03e5b5d204ac21d6e72f46c313973424664b2e6b"
+    },
+    {
+      "id": "dependency-18",
+      "file": "LICENSES/historical/dependency-18.txt",
+      "package": "github.com/urfave/cli",
+      "originalPath": "vendor/github.com/urfave/cli/LICENSE",
+      "classification": "MIT",
+      "bytes": 1084,
+      "sha256": "da277af11b85227490377fbcac6afccc68be560c4fff36ac05ca62de55345fd7"
+    },
+    {
+      "id": "dependency-19",
+      "file": "LICENSES/historical/dependency-19.txt",
+      "package": "golang.org/x/sys",
+      "originalPath": "vendor/golang.org/x/sys/LICENSE",
+      "classification": "BSD-3-Clause",
+      "bytes": 1453,
+      "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+    },
+    {
+      "id": "dependency-20",
+      "file": "LICENSES/historical/dependency-20.txt",
+      "package": "golang.org/x/sys",
+      "originalPath": "vendor/golang.org/x/sys/PATENTS",
+      "classification": "Additional IP Rights Grant (Patents)",
+      "bytes": 1303,
+      "sha256": "96f408bfae65bf137fc2525d3ecb030271c50c1e90799f87abf8846d8dd505cc"
+    }
+  ],
+  "goToolchainNotices": [
+    {
+      "id": "go-license",
+      "file": "LICENSES/GO-LICENSE",
+      "classification": "BSD-3-Clause",
+      "bytes": 1453,
+      "sha256": "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+    },
+    {
+      "id": "go-patents",
+      "file": "LICENSES/GO-PATENTS",
+      "classification": "Additional IP Rights Grant (Patents)",
+      "bytes": 1303,
+      "sha256": "96f408bfae65bf137fc2525d3ecb030271c50c1e90799f87abf8846d8dd505cc"
+    }
+  ]
+}

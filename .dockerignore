@@ -1,4 +1,8 @@
-./bin
-./.dapper
-./dist
-./.trash-cache
+.git
+.gitignore
+.tmp
+coverage.out
+*.test
+*.test.exe
+vault-secrets-bridge
+vault-secrets-bridge.exe

@@ -1,6 +1,6 @@
-/.dapper
-/bin
-/dist
-*.swp
-/.trash-cache
-.idea
+/.tmp/
+/coverage.out
+/vault-secrets-bridge
+/vault-secrets-bridge.exe
+/*.test
+/*.test.exe

@@ -1,0 +1,31 @@
+{
+  "apiVersion": "pasturestack.io/vault-secrets-bridge/v1alpha1",
+  "operation": "issue",
+  "requestRef": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "subjectRef": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "roleRef": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "policySetRef": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+  "audienceRef": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+  "idempotencyRef": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+  "lease": {
+    "leaseRef": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+    "currentState": "absent",
+    "observedGeneration": 0,
+    "expectedGeneration": 0,
+    "targetGeneration": 1,
+    "renewalCount": 0,
+    "policyCount": 2,
+    "ttlSeconds": 300,
+    "wrapTTLSeconds": 60,
+    "renewable": true,
+    "notBefore": "2026-01-01T00:00:00Z",
+    "expiresAt": "2026-01-01T00:05:00Z"
+  },
+  "assertions": {
+    "subjectAuthenticated": true,
+    "policyAuthorized": true,
+    "issuerAttested": true,
+    "transportProtected": true,
+    "requestFresh": true
+  }
+}
