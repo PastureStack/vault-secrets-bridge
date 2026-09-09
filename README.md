@@ -6,6 +6,10 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 `vault-secrets-bridge` is the PastureStack host-authenticated broker for short-lived HashiCorp Vault leases. It accepts only fresh requests signed by an active host identity, enforces an explicit policy allowlist, asks Vault for a response-wrapped child token, encrypts that wrapping token to the requesting host, and tracks only the revocable accessor under a hashed host-and-volume key.
 
+The current public release and Catalog image are `v0.1.1`. This repository does
+not publish a mutable `latest` tag; future releases must use an unused pure
+numeric version.
+
 The companion `secrets-flexvolume-plugin` runs as a separate host-local Docker volume driver with `--provider vault`. It verifies and decrypts the returned envelope, writes the wrapping token to a read-only file in an isolated `tmpfs`, and asks this bridge to revoke the lease after the final workload unmounts the volume.
 
 ## Runtime entry point
