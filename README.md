@@ -99,7 +99,9 @@ Go 1.26 or newer is required:
 
 The validation scripts check formatting, repeated unit tests, race safety, vet, module integrity, the public-tree policy, deterministic builds, binary content, and audit-planner behavior. The release container repeats the complete Go test suite before producing the static Linux binary.
 
-No CI/CD configuration is included.
+The repository-integrity workflow runs for pull requests, `main` pushes, and
+manual dispatch. It validates repository policy but does not publish or deploy
+runtime artifacts.
 
 ## License
 
