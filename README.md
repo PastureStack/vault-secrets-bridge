@@ -6,7 +6,7 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 `vault-secrets-bridge` is the PastureStack host-authenticated broker for short-lived HashiCorp Vault leases. It accepts only fresh requests signed by an active host identity, enforces an explicit policy allowlist, asks Vault for a response-wrapped child token, encrypts that wrapping token to the requesting host, and tracks only the revocable accessor under a hashed host-and-volume key.
 
-The current public release and Catalog image are `v0.1.1`. This repository does
+The current public release and Catalog image are `v0.1.2`. This repository does
 not publish a mutable `latest` tag; future releases must use an unused pure
 numeric version.
 
@@ -106,3 +106,7 @@ runtime artifacts.
 ## License
 
 The preserved root license is Apache License 2.0. Historical third-party legal artifacts are byte-preserved and classified separately under `LICENSES/`; their presence does not change the root license or claim authorship of historical work. The current implementation uses only the Go standard library and does not import historical vendored packages.
+
+## October 2026 security maintenance
+
+Maintained Go builds select the patched Go 1.27.3 compiler without raising the existing Go language requirement. Ubuntu build/runtime stages apply the checksum-pinned `ca-certificates 20260816ubuntu0.26.04.1` security package after their frozen APT baseline; the final trust store and installed version are verified. Release artifacts must pass the repository's existing checks before publication.
