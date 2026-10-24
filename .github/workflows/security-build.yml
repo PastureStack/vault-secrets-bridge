@@ -145,4 +145,6 @@ jobs:
           [[ "$readback" =~ ^sha256:[0-9a-f]{64}$ ]]
           jq -n --arg image "$remote_image" --arg digest "$readback" --arg source "$GITHUB_SHA" '{image:$image,digest:$digest,source:$source}' >> dist/security-runtime/registry-images.jsonl
           sha256sum dist/security-runtime/registry-images.jsonl > dist/security-runtime/registry-images.sha256
-          gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --title "$GITHUB_REPOSITORY $RELEASE_TAG" --notes "Official security rebuild from $GITHUB_SHA. The release contains the exact tested/scanned runtime archive, SBOMs, and registry digest readbacks. No deployment is included." dist/security-runtime/*
+          mapfile -d '' -t release_assets < <(find dist/security-runtime -maxdepth 1 -type f ! -name '.*' -print0 | LC_ALL=C sort -z)
+          test "${#release_assets[@]}" -gt 0
+          gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --title "$GITHUB_REPOSITORY $RELEASE_TAG" --notes "Official security rebuild from $GITHUB_SHA. The release contains the exact tested/scanned runtime archive, SBOMs, and registry digest readbacks. No deployment is included." "${release_assets[@]}"
