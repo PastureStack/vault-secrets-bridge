@@ -35,7 +35,7 @@ jobs:
           set -euo pipefail
           test "$(go env GOVERSION)" = go1.27.3
           bash scripts/validate.sh
-          docker build --build-arg VERSION=0.1.2 --build-arg REVISION="$GITHUB_SHA" -f package/Dockerfile -t local/vault-secrets-bridge .
+          docker build --build-arg VERSION=0.1.3 --build-arg REVISION="$GITHUB_SHA" -f package/Dockerfile -t local/vault-secrets-bridge .
       - name: Retain the exact verified runtime
         shell: bash
         run: |
@@ -52,14 +52,45 @@ jobs:
           scanner=aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
           PYTHONDONTWRITEBYTECODE=1 python3 .github/scripts/test_runtime_vulnerability_policy.py
           docker pull "$scanner"
+          cache="$RUNNER_TEMP/ubuntu-backports-trivy-cache"
+          mkdir -p "$cache"
+          docker run --rm -v "$cache:/root/.cache/trivy" "$scanner" image --download-db-only
           for runtime in local/vault-secrets-bridge; do
             name=${runtime##*/}; name=${name%%:*}
             docker save "$runtime" --output "$RUNNER_TEMP/$name.tar"
-            docker run --rm -v "$RUNNER_TEMP/$name.tar:/image.tar:ro" -v "$PWD/dist/security-runtime:/evidence" "$scanner" image --input /image.tar --scanners vuln,secret --list-all-pkgs --format json --output "/evidence/$name-security.json"
-            python3 .github/scripts/enforce-runtime-vulnerabilities.py --repository PastureStack/vault-secrets-bridge < "dist/security-runtime/$name-security.json"
-            docker run --rm -v "$RUNNER_TEMP/$name.tar:/image.tar:ro" -v "$PWD/dist/security-runtime:/evidence" "$scanner" image --input /image.tar --format cyclonedx --output "/evidence/$name-sbom.cdx.json"
+            docker run --rm -v "$cache:/root/.cache/trivy" -v "$RUNNER_TEMP/$name.tar:/image.tar:ro" -v "$PWD/dist/security-runtime:/evidence" "$scanner" image --skip-db-update --input /image.tar --scanners vuln,secret --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --list-all-pkgs --format json --output "/evidence/$name-security.json"
+            docker run --rm -v "$cache:/root/.cache/trivy" -v "$RUNNER_TEMP/$name.tar:/image.tar:ro" -v "$PWD/dist/security-runtime:/evidence" "$scanner" image --skip-db-update --input /image.tar --format cyclonedx --output "/evidence/$name-sbom.cdx.json"
+            mkdir -p dist/security-runtime
+            consumer_container=$(docker create "$runtime" /bin/true)
+            if docker cp "$consumer_container:/usr/share/pasturestack/security/ubuntu-backports" dist/security-runtime/ubuntu-backports; then
+                docker rm "$consumer_container" >/dev/null
+            else
+                docker rm "$consumer_container" >/dev/null
+                exit 1
+            fi
+            (cd dist/security-runtime/ubuntu-backports && sha256sum --check SHA256SUMS)
+            bundle_image='ghcr.io/pasturestack/ubuntu-security-backports:v0.1.0@sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a'
+            mkdir -p dist/security-runtime/bundle-tools
+            bundle_container=$(docker create "$bundle_image" unused)
+            if docker cp "$bundle_container:/out/verify-consumer-evidence.py" dist/security-runtime/bundle-tools/verify-consumer-evidence.py && \
+                docker cp "$bundle_container:/out/SHA256SUMS" dist/security-runtime/bundle-tools/SHA256SUMS; then
+                docker rm "$bundle_container" >/dev/null
+            else
+                docker rm "$bundle_container" >/dev/null
+                exit 1
+            fi
+            (cd dist/security-runtime/bundle-tools && \
+                test "$(grep -Ec '^[0-9a-f]{64}  verify-consumer-evidence\.py$' SHA256SUMS)" -eq 1 && \
+                grep -E '^[0-9a-f]{64}  verify-consumer-evidence\.py$' SHA256SUMS | sha256sum --check -)
+            python3 dist/security-runtime/bundle-tools/verify-consumer-evidence.py \
+                --evidence-dir dist/security-runtime/ubuntu-backports --sbom "dist/security-runtime/$name-sbom.cdx.json" \
+                --bundle-checksums dist/security-runtime/bundle-tools/SHA256SUMS \
+                --expected-bundle-digest 'sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a' > dist/security-runtime/ubuntu-backports-validation.json
+            docker run --rm -v "$cache:/root/.cache/trivy" -v "$RUNNER_TEMP/$name.tar:/image.tar:ro" -v "$PWD/dist/security-runtime:/evidence" "$scanner" image --skip-db-update --input /image.tar --scanners vuln,secret --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --list-all-pkgs --vex /evidence/ubuntu-backports/openvex.json --format json --output "/evidence/$name-security-backports.json"
+            python3 .github/scripts/enforce-runtime-vulnerabilities.py --repository PastureStack/vault-secrets-bridge < "dist/security-runtime/$name-security-backports.json"
+            tar -cf dist/security-runtime/ubuntu-backports-evidence.tar -C dist/security-runtime ubuntu-backports ubuntu-backports-validation.json
           done
-          (cd dist/security-runtime && sha256sum -- *.json images.tar.gz source-revision.txt > SHA256SUMS)
+          (cd dist/security-runtime && sha256sum -- *.json *.tar images.tar.gz source-revision.txt > SHA256SUMS)
       - name: Upload verified runtime and checksums
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -80,7 +111,7 @@ jobs:
       packages: write
     env:
       GH_TOKEN: ${{ github.token }}
-      RELEASE_TAG: v0.1.2
+      RELEASE_TAG: v0.1.3
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

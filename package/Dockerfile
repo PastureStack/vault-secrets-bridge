@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1.7
+FROM ghcr.io/pasturestack/ubuntu-security-backports:v0.1.0@sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a AS ubuntu_security_backports
 FROM golang:1.27.3-bookworm@sha256:972b4110ba0f47539a975c31e52c64765e1ff19f2d74469ae4a595c6676e80a5 AS build
 
 ARG VERSION=dev
@@ -54,6 +55,22 @@ RUN set -eux; \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /out/vault-secrets-bridge /usr/local/bin/vault-secrets-bridge
+
+# Install qualified backports only for packages already in this runtime.
+# The immutable read-only build mount adds no installer or interpreter to it.
+RUN --mount=from=ubuntu_security_backports,source=/out,target=/opt/pasturestack/ubuntu-security-backports,ro \
+    set -eux; \
+    evidence=/usr/share/pasturestack/security/ubuntu-backports; \
+    mkdir -p "${evidence}"; \
+    /opt/pasturestack/ubuntu-security-backports/install-existing-backports --install-in-docker-build > "${evidence}/install.json"; \
+    /opt/pasturestack/ubuntu-security-backports/install-existing-backports --verify-installed > "${evidence}/verify.json"; \
+    for document in manifest.json qualification.json openvex.json source-inputs.lock.json; do \
+        cp "/opt/pasturestack/ubuntu-security-backports/${document}" "${evidence}/${document}"; \
+    done; \
+    printf '%s\n' 'ghcr.io/pasturestack/ubuntu-security-backports:v0.1.0@sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a' > "${evidence}/bundle-image.txt"; \
+    (cd "${evidence}" && sha256sum manifest.json qualification.json openvex.json source-inputs.lock.json install.json verify.json bundle-image.txt > SHA256SUMS); \
+    dpkg-query -W -f='${binary:Package}\t${Version}\n' | LC_ALL=C sort > /usr/share/pasturestack/ubuntu-security-packages.tsv; \
+    rm -f /var/cache/ldconfig/aux-cache
 
 USER 65532:65532
 EXPOSE 8080
