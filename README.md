@@ -4,13 +4,13 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 # Vault Secrets Bridge
 
-Linux candidate **`v0.1.3`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider. It is unpublished; the last published Linux release is [v0.1.2](https://github.com/PastureStack/vault-secrets-bridge/releases/tag/v0.1.2).
+Linux runtime **`v0.1.3`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider.
 
-Build and image examples below target the candidate. Publication requires completed bundle provenance and the normal final-image release gates. The image retains bundle manifests, source inputs and install/verify receipts under `/usr/share/pasturestack/security/ubuntu-backports/`.
+The image retains bundle manifests, source inputs and installation receipts under `/usr/share/pasturestack/security/ubuntu-backports/`.
 
 `vault-secrets-bridge` is the PastureStack host-authenticated broker for short-lived HashiCorp Vault leases. It accepts only fresh requests signed by an active host identity, enforces an explicit policy allowlist, asks Vault for a response-wrapped child token, encrypts that wrapping token to the requesting host, and tracks only the revocable accessor under a hashed host-and-volume key.
 
-After publication, the candidate image is `ghcr.io/pasturestack/vault-secrets-bridge:v0.1.3`.
+The Linux image is `ghcr.io/pasturestack/vault-secrets-bridge:v0.1.3`.
 This repository uses unused pure numeric versions and does not publish a
 mutable `latest` tag.
 
@@ -122,4 +122,4 @@ finding with an official fix blocks release, regardless of severity. Unknown
 findings block unless a separately reviewed, exact not-affected statement is
 proved by the actual product dependency graph. LOW/MEDIUM findings without an
 official fix require the repository's exact CVE/package/version/PURL review ledger;
-new or changed findings fail closed. Each candidate must pass this policy against its exact image and package versions.
+new or changed findings fail closed. Each release must pass this policy against its exact image and package versions.
